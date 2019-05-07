@@ -58,7 +58,9 @@ namespace Decompiler
 				Program.Config.IniWriteBool("Base", "Uppercase_Natives", false);
 				Program.Config.IniWriteBool("Base", "Hex_Index", false);
 				Program.Config.IniWriteBool("View", "Line_Numbers", true);
-			}
+                Program.Config.IniWriteBool("Base", "Collect_Native_Usage", false);
+
+            }
 			showArraySizeToolStripMenuItem.Checked = Program.Find_Show_Array_Size();
 			reverseHashesToolStripMenuItem.Checked = Program.Find_Reverse_Hashes();
 			declareVariablesToolStripMenuItem.Checked = Program.Find_Declare_Variables();
@@ -69,8 +71,9 @@ namespace Decompiler
 			includeNativeNamespaceToolStripMenuItem.Checked = Program.Find_Nat_Namespace();
 			globalAndStructHexIndexingToolStripMenuItem.Checked = Program.Find_Hex_Index();
 			uppercaseNativesToolStripMenuItem.Checked = Program.Find_Upper_Natives();
+            collectNativeUsage.Checked = Program.Find_Collect_Native_Usage();
 
-			showLineNumbersToolStripMenuItem.Checked = fctb1.ShowLineNumbers = Program.Config.IniReadBool("View", "Line_Numbers");
+            showLineNumbersToolStripMenuItem.Checked = fctb1.ShowLineNumbers = Program.Config.IniReadBool("View", "Line_Numbers");
 			ToolStripMenuItem t = null;
 			switch (Program.Find_getINTType())
 			{
@@ -150,10 +153,14 @@ namespace Decompiler
 				SetFileName(filename);
 				ScriptOpen = true;
 				updatestatus("Ready, Time taken: " + (DateTime.Now - Start).ToString());
-				if (ext != ".ysc")
-					ScriptFile.npi.savefile();
-				else
-					ScriptFile.X64npi.savefile();
+
+                if(Program.Collect_Native_Usage)
+                {
+                    if (ext != ".ysc")
+                        ScriptFile.npi.savefile();
+                    else
+                        ScriptFile.X64npi.savefile();
+                }
 
 			}
 		}
@@ -214,10 +221,14 @@ namespace Decompiler
 				}
 
 				updatestatus("Directory Extracted, Time taken: " + (DateTime.Now - Start).ToString());
-				if (console)
-					ScriptFile.npi.savefile();
-				if (pc)
-					ScriptFile.X64npi.savefile();
+
+                if (Program.Collect_Native_Usage)
+                {
+                    if (console)
+                        ScriptFile.npi.savefile();
+                    if (pc)
+                        ScriptFile.X64npi.savefile();
+                }
 			}
 			this.Show();
 		}
@@ -261,10 +272,15 @@ namespace Decompiler
 					file.Save(Path.Combine(Path.GetDirectoryName(ofd.FileName),
 						Path.GetFileNameWithoutExtension(ofd.FileName) + ".c"));
 					file.Close();
-					if ((Path.GetExtension(ofd.FileName) != ".ysc"))
-						ScriptFile.npi.savefile();
-					else
-						ScriptFile.X64npi.savefile();
+
+                    if (Program.Collect_Native_Usage)
+                    {
+                        if ((Path.GetExtension(ofd.FileName) != ".ysc"))
+						    ScriptFile.npi.savefile();
+					    else
+						    ScriptFile.X64npi.savefile();
+                    }
+
 					updatestatus("File Saved, Time taken: " + (DateTime.Now - Start).ToString());
 				}
 #if !DEBUG
@@ -320,7 +336,7 @@ namespace Decompiler
 			Program.Find_Shift_Variables();
 		}
 
-		private void showLineNumbersToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showLineNumbersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			showLineNumbersToolStripMenuItem.Checked = !showLineNumbersToolStripMenuItem.Checked;
 			Program.Config.IniWriteBool("View", "Line_Numbers", showLineNumbersToolStripMenuItem.Checked);
@@ -393,11 +409,18 @@ namespace Decompiler
 			RebuildNativeFiles();
 		}
 
-		#endregion
+        private void CollectNativeUsage_Click(object sender, EventArgs e)
+        {
+            collectNativeUsage.Checked = !collectNativeUsage.Checked;
+            Program.Config.IniWriteBool("Base", "Collect_Native_Usage", collectNativeUsage.Checked);
+            Program.Find_Collect_Native_Usage();
+        }
 
-		#region Function Location
+        #endregion
 
-		bool opening = false;
+        #region Function Location
+
+        bool opening = false;
 		bool forceclose = false;
 
 		private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -1026,5 +1049,5 @@ namespace Decompiler
 				}
 			return false;
 		}
-	}
+    }
 }

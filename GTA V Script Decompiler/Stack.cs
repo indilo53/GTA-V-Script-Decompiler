@@ -502,23 +502,28 @@ namespace Decompiler
 				functionline += ")";
 			if (rcount == 0)
 			{
-				ScriptFile.npi.updatenative(hash, DataType.None, _params.ToArray());
+                if (Program.Collect_Native_Usage)
+                    ScriptFile.npi.updatenative(hash, DataType.None, _params.ToArray());
 				return functionline + ";";
 			}
 			else if (rcount == 1)
 			{
-				ScriptFile.npi.updatenative(hash, ScriptFile.npi.getrettype(hash), _params.ToArray());
+                if (Program.Collect_Native_Usage)
+                    ScriptFile.npi.updatenative(hash, ScriptFile.npi.getrettype(hash), _params.ToArray());
 				PushNative(functionline, hash, ScriptFile.npi.getrettype(hash));
 			}
 			else if (rcount > 1)
 			{
-				if (rcount == 2)
-					ScriptFile.npi.updatenative(hash, DataType.Unk, _params.ToArray());
-				else if (rcount == 3)
-					ScriptFile.npi.updatenative(hash, DataType.Vector3, _params.ToArray());
-				else
-					throw new Exception("Error in return items count");
-				PushStructNative(functionline, hash, rcount, ScriptFile.npi.getrettype(hash));
+                if (Program.Collect_Native_Usage)
+                {
+                    if (rcount == 2)
+                        ScriptFile.npi.updatenative(hash, DataType.Unk, _params.ToArray());
+                    else if (rcount == 3)
+                        ScriptFile.npi.updatenative(hash, DataType.Vector3, _params.ToArray());
+                    else
+                        throw new Exception("Error in return items count");
+                    PushStructNative(functionline, hash, rcount, ScriptFile.npi.getrettype(hash));
+                }
 			}
 			else
 				throw new Exception("Error in return items count");
@@ -642,22 +647,28 @@ namespace Decompiler
 				functionline += ")";
 			if (rcount == 0)
 			{
-				ScriptFile.X64npi.updatenative(hash, DataType.None, _params.ToArray());
+                if(Program.Collect_Native_Usage)
+				    ScriptFile.X64npi.updatenative(hash, DataType.None, _params.ToArray());
 				return functionline + ";";
 			}
 			else if (rcount == 1)
 			{
-				ScriptFile.X64npi.updatenative(hash, ScriptFile.X64npi.getrettype(hash), _params.ToArray());
+                if (Program.Collect_Native_Usage)
+                    ScriptFile.X64npi.updatenative(hash, ScriptFile.X64npi.getrettype(hash), _params.ToArray());
 				PushNative(functionline, hash, ScriptFile.X64npi.getrettype(hash));
 			}
 			else if (rcount > 1)
 			{
-				if (rcount == 2)
-					ScriptFile.X64npi.updatenative(hash, DataType.Unk, _params.ToArray());
-				else if (rcount == 3)
-					ScriptFile.X64npi.updatenative(hash, DataType.Vector3, _params.ToArray());
-				else
-					throw new Exception("Error in return items count");
+                if (Program.Collect_Native_Usage)
+                {
+                    if (rcount == 2)
+                        ScriptFile.X64npi.updatenative(hash, DataType.Unk, _params.ToArray());
+                    else if (rcount == 3)
+                        ScriptFile.X64npi.updatenative(hash, DataType.Vector3, _params.ToArray());
+                    else
+                        throw new Exception("Error in return items count");
+                }
+
 				PushStructNative(functionline, hash, rcount, ScriptFile.X64npi.getrettype(hash));
 			}
 			else

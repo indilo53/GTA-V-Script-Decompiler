@@ -192,5 +192,17 @@ namespace Decompiler
 			get { return _upper_Natives; }
 		}
 
-	}
+        public static bool Find_Collect_Native_Usage()
+        {
+            return _collect_Native_Usage = Program.Config.IniReadBool("Base", "Collect_Native_Usage", false);
+        }
+
+        private static bool _collect_Native_Usage = false;
+
+        public static bool Collect_Native_Usage
+        {
+            get { return _collect_Native_Usage; }
+        }
+
+    }
 }

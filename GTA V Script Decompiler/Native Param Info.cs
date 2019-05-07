@@ -7,11 +7,12 @@ namespace Decompiler
 {
 	class NativeParamInfo
 	{
-		Dictionary<uint, Tuple<Stack.DataType, Stack.DataType[]>> Natives;
+		Dictionary<uint, Tuple<Stack.DataType, Stack.DataType[]>> Natives = new Dictionary<uint, Tuple<Stack.DataType, Stack.DataType[]>>();
 
 		public NativeParamInfo()
 		{
-			loadfile();
+            if(Program.Collect_Native_Usage)
+			    loadfile();
 		}
 
 		public void savefile()
@@ -208,11 +209,12 @@ namespace Decompiler
 
 	class x64BitNativeParamInfo
 	{
-		Dictionary<ulong, Tuple<Stack.DataType, Stack.DataType[]>> Natives;
+		Dictionary<ulong, Tuple<Stack.DataType, Stack.DataType[]>> Natives = new Dictionary<ulong, Tuple<Stack.DataType, Stack.DataType[]>>();
 
 		public x64BitNativeParamInfo()
 		{
-			loadfile();
+            if (Program.Collect_Native_Usage)
+                loadfile();
 		}
 
 		public void savefile()
