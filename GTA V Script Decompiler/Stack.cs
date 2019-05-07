@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Decompiler
 {
@@ -96,7 +97,7 @@ namespace Decompiler
 
 		public void Push(float value)
 		{
-			_stack.Add(new StackValue(StackValue.Type.Literal, value.ToString() + "f", DataType.Float));
+			_stack.Add(new StackValue(StackValue.Type.Literal, value.ToString(CultureInfo.InvariantCulture) + "f", DataType.Float));
 		}
 
 		public void PushPointer(string value)
@@ -427,7 +428,7 @@ namespace Decompiler
 									{
 										temp = Utils.SwapEndian(temp);
 										float floatval = Utils.SwapEndian(BitConverter.ToSingle(BitConverter.GetBytes(temp), 0));
-										functionline += floatval.ToString() + "f, ";
+										functionline += floatval.ToString(CultureInfo.InvariantCulture) + "f,";
 									}
 									else
 										functionline += val.Value + ", ";
@@ -438,7 +439,7 @@ namespace Decompiler
 									{
 										tempu = Utils.SwapEndian(tempu);
 										float floatval = Utils.SwapEndian(BitConverter.ToSingle(BitConverter.GetBytes(tempu), 0));
-										functionline += floatval.ToString() + "f, ";
+										functionline += floatval.ToString(CultureInfo.InvariantCulture) + "f, ";
 									}
 									else
 										functionline += val.Value + ", ";
@@ -452,7 +453,7 @@ namespace Decompiler
 									{
 										temp = Utils.SwapEndian(temp);
 										float floatval = Utils.SwapEndian(BitConverter.ToSingle(BitConverter.GetBytes(temp), 0));
-										functionline += floatval.ToString() + "f, ";
+										functionline += floatval.ToString(CultureInfo.InvariantCulture) + "f, ";
 									}
 									else
 										functionline += val.Value + ", ";
@@ -572,7 +573,7 @@ namespace Decompiler
 									{
 										temp = Utils.SwapEndian(temp);
 										float floatval = Utils.SwapEndian(BitConverter.ToSingle(BitConverter.GetBytes(temp), 0));
-										functionline += floatval.ToString() + "f, ";
+										functionline += floatval.ToString(CultureInfo.InvariantCulture) + "f, ";
 									}
 									else
 										functionline += val.Value + ", ";
@@ -583,7 +584,7 @@ namespace Decompiler
 									{
 										tempu = Utils.SwapEndian(tempu);
 										float floatval = Utils.SwapEndian(BitConverter.ToSingle(BitConverter.GetBytes(tempu), 0));
-										functionline += floatval.ToString() + "f, ";
+										functionline += floatval.ToString(CultureInfo.InvariantCulture) + "f, ";
 									}
 									else
 										functionline += val.Value + ", ";
@@ -597,7 +598,7 @@ namespace Decompiler
 									{
 										temp = Utils.SwapEndian(temp);
 										float floatval = Utils.SwapEndian(BitConverter.ToSingle(BitConverter.GetBytes(temp), 0));
-										functionline += floatval.ToString() + "f, ";
+										functionline += floatval.ToString(CultureInfo.InvariantCulture) + "f, ";
 									}
 									else
 										functionline += val.Value + ", ";
